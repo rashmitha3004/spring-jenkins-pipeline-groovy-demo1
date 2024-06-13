@@ -56,6 +56,14 @@ pipeline {
                  }
             }
         }
+
+        stage('Docker Push') {
+            steps {
+                 withCredentials([usernamePassword(credentialsId:'dockerHub',passwordVariable:'dockerHubPassword',usernameVariable:'dockerHubUser')])
+                 bat "docker login -u ${env.dockerHubuser} -p ${env.dockerHubPassword}"
+                 bat "docker push rashmitha0305/spring-jenkins-ci-cd"
+            }
+        }
     	
     }
 
