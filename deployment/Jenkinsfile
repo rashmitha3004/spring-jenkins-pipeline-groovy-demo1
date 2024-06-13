@@ -28,7 +28,7 @@ pipeline {
             
            
            
-         stage('Integration Test') {
+        stage('Integration Test') {
             steps {
                
                 // Run Maven on a Unix agent.
@@ -43,11 +43,22 @@ pipeline {
             }
         
     	}
-    	
-    	
-    	
+
+        stage('Docker Build') {
+            steps {
+                script{
+                if(isUnix()){
+                sh "docker build -t rashmitha0305/spring-jenkins-ci-cd:latest ."
+				}	
+                else{
+                 bat "docker build -t rashmitha0305/spring-jenkins-ci-cd:latest ."
+                 }
+                 }
+            }
+        }
     	
     }
+
      post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
